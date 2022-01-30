@@ -6,10 +6,14 @@ public class PlayerController : MonoBehaviour
 {
 
     Player player;
+    Network network;
+
+    Vector3 previousDirection;
 
     private void Start()
     {
         player = GetComponent<Player>();
+        network = Network.Instance;
     }
 
     private void Update()
@@ -44,6 +48,15 @@ public class PlayerController : MonoBehaviour
         {
             dir.x += 1;
         }
+        if (Vector3.Distance(previousDirection, dir) > 0.001)
+        {
+            var x = dir.x.ToString("0.00");
+            var y = dir.y.ToString("0.00");
+            var z = dir.z.ToString("0.00");
+            network.Send(NetworkSend.SyncValue, $"0 {x} {y} {z}");
+            previousDirection = dir;
+        }
+
         return dir;
     }
 }

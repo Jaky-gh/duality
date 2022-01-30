@@ -17,7 +17,7 @@ public class WaitingRoomNetworkManager : MonoBehaviour
     void Start()
     {
         netWork = Network.Instance;
-        if (!netWork.Connect())
+        if (!netWork.Connected)
         {
             RoomCode.text = "Can't reach server";
         }
@@ -36,13 +36,13 @@ public class WaitingRoomNetworkManager : MonoBehaviour
         {
             return;
         }
-        switch ((NetWorkReceive)type)
+        switch ((NetworkReceive)type)
         {
-            case NetWorkReceive.SendId:
+            case NetworkReceive.SendId:
                 lobyCode = dataSplit[1];
                 RoomCode.text = "Room code: " + lobyCode;
                 break;
-            case NetWorkReceive.JoinLobyOk:
+            case NetworkReceive.JoinLobyOk:
                 OnJoinLoby(dataSplit[1]);
                 break;
         }
@@ -55,7 +55,7 @@ public class WaitingRoomNetworkManager : MonoBehaviour
 
     public void OnClickJoin()
     {
-        netWork.Send(NetWorkSend.JoinLoby, InputField.text);
+        netWork.Send(NetworkSend.JoinLoby, InputField.text);
     }
 
     public void OnJoinLoby(string loby)

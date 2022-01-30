@@ -7,6 +7,8 @@ public class SecondPlayerController : MonoBehaviour
     Player player;
     Network network;
 
+    Vector3 direction = Vector3.zero;
+
     private void Start()
     {
         player = GetComponent<Player>();
@@ -24,6 +26,11 @@ public class SecondPlayerController : MonoBehaviour
         {
             player.MoveDirection(direction.normalized);
         }
+    }
+
+    public void SetDirection(Vector3 direction)
+    {
+        this.direction = direction;
     }
 
     Vector3 getDirection()
@@ -49,6 +56,6 @@ public class SecondPlayerController : MonoBehaviour
             }
             return dir;
         }
-        return Vector3.zero;
+        return direction;
     }
 }

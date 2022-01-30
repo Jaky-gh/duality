@@ -6,14 +6,14 @@ using System.Text;
 using System.Net.Sockets;
 using System;
 
-public enum NetWorkReceive
+public enum NetworkReceive
 {
     SendId,
     JoinLobyOk,
     SyncValue,
 }
 
-public enum NetWorkSend
+public enum NetworkSend
 {
     JoinLoby,
     SyncValue,
@@ -29,6 +29,7 @@ public class Network
             if (instance == null)
             {
                 instance = new Network();
+                instance.Connect();
             }
             return instance;
         }
@@ -47,12 +48,13 @@ public class Network
     public int Player;
     public bool Connected { get; private set; } = false;
 
-    public bool Connect()
+    private bool Connect()
     {
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         try
         {
             socket.Connect("82.165.126.16", 11000);
+            //socket.Connect("127.0.0.1", 11000);
         }
         catch
         {
@@ -84,14 +86,22 @@ public class Network
         ReceiveAsync();
     }
 
-    public void Send(NetWorkSend type, string data)
+    public void Send(NetworkSend type, string data)
     {
+        if (!Connected)
+        {
+            return;
+        }
         var buffer = Encoding.ASCII.GetBytes($"{(int)type} {data}|");
         socket.Send(buffer);
     }
 
     public void Update()
     {
+        if (!Connected)
+        {
+            return;
+        }
         if (dataReceived.Length > 0)
         {
             var dataSplit = dataReceived.Split('|');
