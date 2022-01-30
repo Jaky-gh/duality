@@ -28,7 +28,7 @@ public class LowerItem : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == Player.instance.transform.tag)
+        if (other.tag == "Player")
         {
             Vector3 target = new Vector3(itemToLower.transform.position.x, initialPosition.y - objectHeight, itemToLower.transform.position.z);
             itemToLower.transform.position = Vector3.Lerp(itemToLower.transform.position, target, Time.deltaTime * liftSpeed);

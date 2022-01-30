@@ -6,17 +6,17 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
-public class NetWorkManager : MonoBehaviour
+public class WaitingRoomNetworkManager : MonoBehaviour
 {
     public TMP_InputField InputField;
     public TMP_Text RoomCode;
 
-    NetWork netWork;
+    Network netWork;
     string lobyCode;
 
     void Start()
     {
-        netWork = NetWork.Instance;
+        netWork = Network.Instance;
         if (!netWork.Connect())
         {
             RoomCode.text = "Can't reach server";

@@ -19,21 +19,22 @@ public enum NetWorkSend
     SyncValue,
 }
 
-public class NetWork
+public class Network
+
 {
-    public static NetWork Instance
+    public static Network Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = new NetWork();
+                instance = new Network();
             }
             return instance;
         }
     }
 
-    private static NetWork instance;
+    private static Network instance;
 
     public event EventHandler OnReceive;
 
@@ -44,6 +45,7 @@ public class NetWork
     string lobyCode;
 
     public int Player;
+    public bool Connected { get; private set; } = false;
 
     public bool Connect()
     {
@@ -54,12 +56,14 @@ public class NetWork
         }
         catch
         {
+            Connected = false;
             return false;
         }
         asyncSocket = new SocketAsyncEventArgs();
         asyncSocket.Completed += AsyncSocket_Completed;
         asyncSocket.SetBuffer(buffer, 0, 1024);
         ReceiveAsync();
+        Connected = true;
         return true;
     }
 

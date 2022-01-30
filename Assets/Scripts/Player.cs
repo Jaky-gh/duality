@@ -6,18 +6,21 @@ public class Player : MonoBehaviour
 {
     [Range(0f, 10f)]
     public float speed = 2f;
-    public static Player instance;
 
     private Vector3? currentDestination = null;
+    private Rigidbody rb;
 
     private void Start()
     {
-        instance = this;
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        Move();
+        if (!Move())
+        {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        }
     }
 
     private bool Move()
@@ -27,15 +30,10 @@ public class Player : MonoBehaviour
             return false;
         }
         var direction = currentDestination.Value - transform.position;
+        direction = direction.normalized * speed;
         RotateToward(currentDestination.Value);
-        var advancement = direction * Time.deltaTime * speed;
-        float distance = Vector3.Distance(transform.position, currentDestination.Value);
-        if (distance < advancement.magnitude)
-        {
-            advancement = advancement.normalized;
-            advancement *= distance;
-        }
-        transform.position += advancement;
+        direction.y = rb.velocity.y;
+        rb.velocity = direction;
 
         if (Vector3.Distance(transform.position, currentDestination.Value) < 0.01f)
         {

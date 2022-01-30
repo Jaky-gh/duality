@@ -28,11 +28,11 @@ public class PlayerController : MonoBehaviour
     Vector3 getDirection()
     {
         Vector3 dir = Vector3.zero;
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Z))
         {
             dir.z += 1;
         }
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.Q))
         {
             dir.x -= 1;
         }
