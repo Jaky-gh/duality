@@ -6,11 +6,13 @@ public class Player : MonoBehaviour
 {
     [Range(0f, 10f)]
     public float speed = 2f;
+    public static Player instance;
 
     private Vector3? currentDestination = null;
 
     private void Start()
     {
+        instance = this;
     }
 
     private void Update()
