@@ -11,17 +11,18 @@ public class WaitingRoomNetworkManager : MonoBehaviour
     public TMP_InputField InputField;
     public TMP_Text RoomCode;
 
-    Network netWork;
+    Network network;
     string lobyCode;
 
     void Start()
     {
-        netWork = Network.Instance;
-        if (!netWork.Connected)
+        network = Network.Instance;
+        network.Connect();
+        if (!network.Connected)
         {
             RoomCode.text = "Can't reach server";
         }
-        netWork.OnReceive += NetWork_OnReceive;
+        network.OnReceive += NetWork_OnReceive;
     }
 
     private void NetWork_OnReceive(object sender, System.EventArgs e)
@@ -50,23 +51,23 @@ public class WaitingRoomNetworkManager : MonoBehaviour
 
     void Update()
     {
-        netWork.Update();
+        network.Update();
     }
 
     public void OnClickJoin()
     {
-        netWork.Send(NetworkSend.JoinLoby, InputField.text);
+        network.Send(NetworkSend.JoinLoby, InputField.text);
     }
 
     public void OnJoinLoby(string loby)
     {
         if (loby == lobyCode)
         {
-            netWork.Player = 1;
+            network.Player = 1;
         }
         else
         {
-            netWork.Player = 2;
+            network.Player = 2;
         }
         SceneManager.LoadScene("MainScene");
     }

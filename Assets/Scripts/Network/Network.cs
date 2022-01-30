@@ -29,7 +29,6 @@ public class Network
             if (instance == null)
             {
                 instance = new Network();
-                instance.Connect();
             }
             return instance;
         }
@@ -48,7 +47,7 @@ public class Network
     public int Player;
     public bool Connected { get; private set; } = false;
 
-    private bool Connect()
+    public bool Connect()
     {
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         try

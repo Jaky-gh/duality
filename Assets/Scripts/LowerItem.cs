@@ -7,6 +7,7 @@ public class LowerItem : MonoBehaviour
     public GameObject itemToLower;
     public float liftSpeed = 10f;
     public float objectHeight = 1f;
+    public List<string> DetectionTags;
 
     private bool onPlate = false;
     private Vector3 initialPosition;
@@ -28,7 +29,7 @@ public class LowerItem : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
+        if (DetectionTags.Contains(other.tag))
         {
             Vector3 target = new Vector3(itemToLower.transform.position.x, initialPosition.y - objectHeight, itemToLower.transform.position.z);
             itemToLower.transform.position = Vector3.Lerp(itemToLower.transform.position, target, Time.deltaTime * liftSpeed);
